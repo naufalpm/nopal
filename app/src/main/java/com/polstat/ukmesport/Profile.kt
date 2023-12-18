@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -40,6 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.polstat.ukmesport.ui.theme.PoppinsFontFamily
@@ -49,35 +51,21 @@ import com.polstat.ukmesport.ui.theme.Secondary
 import com.polstat.ukmesport.viewmodel.AuthViewModel
 import com.polstat.ukmesport.viewmodel.MainViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+//@OptIn(ExperimentalMaterial3Api::class)
 //@Preview(showBackground = true)
 @Composable
 fun Profil(
-    navController: NavController,
-    viewModel: MainViewModel
+    navController: NavController = NavController(LocalContext.current),
+    viewModel: MainViewModel = hiltViewModel()
 ) {
-    viewModel.profile()
+    val profil = viewModel.profile
 
-    val profil by viewModel.profile.collectAsStateWithLifecycle()
-    var name by remember{ mutableStateOf("") }
-    var email by remember{ mutableStateOf("") }
+    val name = profil.name
+    val email = profil.email
 
-//    LaunchedEffect(key1 = profil){
-//        Log.d("TEST", profil.email)
-//        Log.d("TEST", profil.name)
-//    }
-    LaunchedEffect(key1 = profil) {
-        // Memastikan bahwa profil telah diambil sebelum menggunakan datanya
-        if (profil != null) {
-            name = profil.name
-            email = profil.email
-        }
-    }
     Surface(
-
         modifier = Modifier
             .fillMaxSize()
-
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -88,7 +76,6 @@ fun Profil(
                     painter = painterResource(id = R.drawable.background),
                     contentScale = ContentScale.FillHeight
                 )
-
         ){
             Icon(
                 imageVector = Icons.Filled.Person,
@@ -134,7 +121,9 @@ fun Profil(
             )
             Spacer(modifier = Modifier.height(10.dp))
             Button(
-                onClick = { navController.navigate("editProfile") },
+                onClick = {
+                    navController.navigate("editProfile")
+                          },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Primary
                 )
@@ -142,12 +131,8 @@ fun Profil(
                 Text(text = "Edit Profil")
 
             }
-
-
         }
-
     }
-
 }
 
 

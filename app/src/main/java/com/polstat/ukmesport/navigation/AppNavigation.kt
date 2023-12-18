@@ -37,39 +37,27 @@ fun AppNavigation(
                 val viewModel =     it.SharedViewModel<AuthViewModel>(navController = navController)
                 SignUp(navController, viewModel)
             }
+        }
+
+        /* Jangan digabung */
+        navigation(
+            startDestination = "home",
+            route = "main"
+        ){
+            composable(route = "home"){
+                val viewModel = it.SharedViewModel<MainViewModel>(navController = navController)
+                Home(navController, viewModel)
+            }
             composable(route = "profile"){
                 val viewModel =     it.SharedViewModel<MainViewModel>(navController = navController)
                 Profil(navController, viewModel)
             }
-            navigation(
-                startDestination = "home",
-                route = "main"
-            ){
-                composable(route = "home"){
-                    Home(navController)
-                }
-                composable(route = "profile"){
-                    val viewModel =     it.SharedViewModel<MainViewModel>(navController = navController)
-                    Profil(navController, viewModel)
-                }
-                composable(route = "updateProfile"){
-                    val viewModel =     it.SharedViewModel<MainViewModel>(navController = navController)
-                    EditProfil(navController, viewModel)
-                }
-//                navigation(
-//                    startDestination = "profile",
-//                    route = "main"
-//                ){
-//                    composable(route = "updateProfile"){
-//                        val viewModel =     it.SharedViewModel<MainViewModel>(navController = navController)
-//                        EditProfil(navController)
-//                    }
-//
-//                }
+            composable(route = "editProfile"){
+                val viewModel =     it.SharedViewModel<MainViewModel>(navController = navController)
+                EditProfil(navController, viewModel)
             }
         }
     }
-
 }
 @Composable
 inline fun  <reified T : ViewModel > NavBackStackEntry.SharedViewModel(navController : NavController) : T{

@@ -43,6 +43,7 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -50,24 +51,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.polstat.ukmesport.ui.theme.PoppinsFontFamily
 import com.polstat.ukmesport.ui.theme.Primary
 import com.polstat.ukmesport.ui.theme.UkmEsportTheme
-
+import com.polstat.ukmesport.viewmodel.MainViewModel
 
 
 @Preview(showBackground = true)
 @Composable
-fun Home(navController: NavController = NavController(MainActivity())
+fun Home(
+    navController: NavController = NavController(LocalContext.current),
+    viewModel: MainViewModel = hiltViewModel()
  ){
     Surface(
-
         modifier = Modifier
             .fillMaxSize()
-
     ) {
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -75,19 +76,14 @@ fun Home(navController: NavController = NavController(MainActivity())
                     painter = painterResource(id = R.drawable.background),
                     contentScale = ContentScale.FillHeight
                 )
-
         ){
 
-
-
         }
-
         Surface(
             modifier = Modifier
                 .fillMaxSize(),
             color = Color.Transparent
         ) {
-
             Column(
                 modifier = Modifier.verticalScroll(ScrollState(0))
             ) {
